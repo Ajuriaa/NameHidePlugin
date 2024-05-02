@@ -1,0 +1,22 @@
+name: NameHidePlugin
+version: '${project.version}'
+main: org.wasalona.namehideplugin.NameHide
+api-version: '1.16'
+load: STARTUP
+description: Plugin to add the ability to hide nametags
+author: Ajuuu
+website: wasalona.org
+commands:
+  namehide:
+    description: Primary command for name hide
+    usage: |
+      /namehide - hides player's nametag
+permissions:
+  namehide.*:
+    description: Gives access to all namehide commands
+    default: op
+    children:
+      namehide.toggle: true
+  namehide.toggle:
+    description: Allows the player the ability to toggle its own nametag
+    default: op
