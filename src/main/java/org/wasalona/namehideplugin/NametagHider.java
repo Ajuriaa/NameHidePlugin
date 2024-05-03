@@ -10,29 +10,33 @@ import java.util.Objects;
 public class NametagHider {
 
     public void togglePlayerName(Player player){
-        boolean isNameHidden = isInNoNameTagTeam(player);
+        boolean isNameHidden = isNametagHidden(player);
 
-        if(isNameHidden) {
+        if(!isNameHidden) {
             executeCommand("team join NoNameTag " + player.getDisplayName());
             player.sendMessage("Your name is hidden now!");
         } else {
-            executeCommand("team leave NoNameTag " + player.getDisplayName());
+            executeCommand("team leave " + player.getDisplayName());
             player.sendMessage("Your name is shown now!");
         }
     }
 
-    private boolean isInNoNameTagTeam(Player player) {
+    private boolean isNametagHidden(Player player) {
         Scoreboard scoreboard = Objects.requireNonNull(Bukkit.getScoreboardManager()).getMainScoreboard();
         Team noNameTagTeam = scoreboard.getTeam("NoNameTag");
 
-        if (noNameTagTeam != null) {
-            return noNameTagTeam.hasEntry(player.getName());
-        } else {
+        if(noNameTagTeam == null){
             createNametagTeam();
+        }
+
+        Team playerTeam = scoreboard.getEntryTeam(player.getName());
+
+        if (playerTeam != null) {
+            return playerTeam.getOption(Team.Option.NAME_TAG_VISIBILITY) == Team.OptionStatus.NEVER;
+        } else {
             return false;
         }
     }
-
 
     private void executeCommand(String command) {
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
