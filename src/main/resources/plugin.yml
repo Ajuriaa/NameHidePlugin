@@ -9,6 +9,7 @@ website: wasalona.org
 commands:
   namehide:
     description: Primary command for name hide
+    aliases: [ nh ]
     usage: |
       /namehide - hides player's nametag
 permissions:
